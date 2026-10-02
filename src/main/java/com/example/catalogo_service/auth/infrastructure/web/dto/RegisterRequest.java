@@ -12,8 +12,8 @@ import lombok.*;
 @AllArgsConstructor
 public class RegisterRequest {
 
-    @NotBlank(message = "El login es obligatorio")
-    @Size(min = 3, max = 50, message = "El login debe tener entre 3 y 50 caracteres")
+    @NotBlank(message = "El nombre de usuario es obligatorio")
+    @Size(min = 3, max = 50, message = "El nombre de usuario debe tener entre 3 y 50 caracteres")
     private String login;
 
     @NotBlank(message = "La contraseña es obligatoria")

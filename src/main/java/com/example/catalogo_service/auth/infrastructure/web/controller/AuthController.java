@@ -1,8 +1,11 @@
 package com.example.catalogo_service.auth.infrastructure.web.controller;
 
+import com.example.catalogo_service.auth.application.exception.InvalidCredentialsException;
 import com.example.catalogo_service.auth.application.exception.UserAlreadyExistsException;
 import com.example.catalogo_service.auth.application.service.AuthService;
 import com.example.catalogo_service.auth.domain.model.User;
+import com.example.catalogo_service.auth.infrastructure.web.dto.LoginRequest;
+import com.example.catalogo_service.auth.infrastructure.web.dto.LoginResponse;
 import com.example.catalogo_service.auth.infrastructure.web.dto.RegisterRequest;
 import com.example.catalogo_service.auth.infrastructure.web.dto.RegisterResponse;
 import com.example.catalogo_service.auth.infrastructure.web.mapper.UserDtoMapper;
@@ -32,6 +35,16 @@ public class AuthController {
             return new ResponseEntity<>(userDtoMapper.toResponse(registeredUser), HttpStatus.CREATED);
         } catch (UserAlreadyExistsException e) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, e.getMessage());
+        }
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<LoginResponse> login(@Valid @RequestBody LoginRequest loginRequest) {
+        try {
+            String token = authService.loginUser(loginRequest.getLogin(), loginRequest.getPassword());
+            return ResponseEntity.ok(LoginResponse.builder().token(token).build());
+        } catch (InvalidCredentialsException e) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, e.getMessage());
         }
     }
 }
