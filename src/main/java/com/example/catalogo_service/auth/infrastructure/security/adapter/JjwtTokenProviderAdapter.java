@@ -2,6 +2,7 @@ package com.example.catalogo_service.auth.infrastructure.security.adapter;
 
 import com.example.catalogo_service.auth.domain.model.User;
 import com.example.catalogo_service.auth.domain.ports.out.TokenProvider;
+import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
@@ -35,5 +36,28 @@ public class JjwtTokenProviderAdapter implements TokenProvider {
                 .expiration(expiry)
                 .signWith(key)
                 .compact();
+    }
+
+    @Override
+    public String getLoginFromToken(String token) {
+        return Jwts.parser()
+                .verifyWith(key)
+                .build()
+                .parseSignedClaims(token)
+                .getPayload()
+                .getSubject();
+    }
+
+    @Override
+    public boolean isTokenValid(String token) {
+        try {
+            Jwts.parser()
+                    .verifyWith(key)
+                    .build()
+                    .parseSignedClaims(token);
+            return true;
+        } catch (JwtException | IllegalArgumentException e) {
+            return false;
+        }
     }
 }
