@@ -9,6 +9,9 @@ import com.example.catalogo_service.auth.infrastructure.web.dto.LoginResponse;
 import com.example.catalogo_service.auth.infrastructure.web.dto.RegisterRequest;
 import com.example.catalogo_service.auth.infrastructure.web.dto.RegisterResponse;
 import com.example.catalogo_service.auth.infrastructure.web.mapper.UserDtoMapper;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -27,6 +30,12 @@ public class AuthController {
     private final AuthService authService;
     private final UserDtoMapper userDtoMapper;
 
+    @Operation(summary = "Registrar un nuevo usuario final")
+    @ApiResponses({
+            @ApiResponse(responseCode = "201", description = "Usuario registrado correctamente"),
+            @ApiResponse(responseCode = "400", description = "Datos de registro inválidos"),
+            @ApiResponse(responseCode = "409", description = "El login o el email ya están en uso")
+    })
     @PostMapping("/register")
     public ResponseEntity<RegisterResponse> register(@Valid @RequestBody RegisterRequest registerRequest) {
         User user = userDtoMapper.toDomain(registerRequest);
@@ -38,6 +47,12 @@ public class AuthController {
         }
     }
 
+    @Operation(summary = "Autenticar un usuario y obtener un JWT")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Login exitoso, devuelve el JWT"),
+            @ApiResponse(responseCode = "400", description = "Datos de login inválidos"),
+            @ApiResponse(responseCode = "401", description = "Usuario o contraseña incorrectos")
+    })
     @PostMapping("/login")
     public ResponseEntity<LoginResponse> login(@Valid @RequestBody LoginRequest loginRequest) {
         try {
