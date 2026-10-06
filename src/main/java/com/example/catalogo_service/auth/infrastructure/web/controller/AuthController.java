@@ -8,6 +8,8 @@ import com.example.catalogo_service.auth.infrastructure.web.dto.LoginRequest;
 import com.example.catalogo_service.auth.infrastructure.web.dto.LoginResponse;
 import com.example.catalogo_service.auth.infrastructure.web.dto.RegisterRequest;
 import com.example.catalogo_service.auth.infrastructure.web.dto.RegisterResponse;
+import com.example.catalogo_service.auth.infrastructure.web.dto.ServiceTokenRequest;
+import com.example.catalogo_service.auth.infrastructure.web.dto.ServiceTokenResponse;
 import com.example.catalogo_service.auth.infrastructure.web.mapper.UserDtoMapper;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -58,6 +60,22 @@ public class AuthController {
         try {
             String token = authService.loginUser(loginRequest.getLogin(), loginRequest.getPassword());
             return ResponseEntity.ok(LoginResponse.builder().token(token).build());
+        } catch (InvalidCredentialsException e) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, e.getMessage());
+        }
+    }
+
+    @Operation(summary = "Autenticar una cuenta técnica de servicio (ej. turnos-service) y obtener un JWT técnico")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Autenticación exitosa, devuelve el JWT técnico"),
+            @ApiResponse(responseCode = "400", description = "Datos inválidos"),
+            @ApiResponse(responseCode = "401", description = "Client id o client secret incorrectos")
+    })
+    @PostMapping("/service-token")
+    public ResponseEntity<ServiceTokenResponse> serviceToken(@Valid @RequestBody ServiceTokenRequest serviceTokenRequest) {
+        try {
+            String token = authService.authenticateService(serviceTokenRequest.getClientId(), serviceTokenRequest.getClientSecret());
+            return ResponseEntity.ok(ServiceTokenResponse.builder().token(token).build());
         } catch (InvalidCredentialsException e) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, e.getMessage());
         }
