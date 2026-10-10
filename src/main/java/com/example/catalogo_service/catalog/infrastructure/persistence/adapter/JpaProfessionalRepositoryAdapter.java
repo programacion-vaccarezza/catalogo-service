@@ -21,4 +21,9 @@ public class JpaProfessionalRepositoryAdapter implements ProfessionalRepository 
         ProfessionalEntity savedEntity = jpaProfessionalRepository.save(professionalEntity);
         return professionalMapper.toDomainModel(savedEntity);
     }
+
+    @Override
+    public boolean existsAny() {
+        return jpaProfessionalRepository.count() > 0;
+    }
 }
