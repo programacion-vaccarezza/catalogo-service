@@ -11,7 +11,11 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+
+import java.util.Collections;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.verify;
@@ -50,6 +54,7 @@ class JwtAuthenticationFilterTest {
         when(request.getHeader("Authorization")).thenReturn("Bearer token-valido");
         when(tokenProvider.isTokenValid("token-valido")).thenReturn(true);
         when(tokenProvider.getLoginFromToken("token-valido")).thenReturn("juan.perez");
+        when(tokenProvider.getRolesFromToken("token-valido")).thenReturn(Collections.emptyList());
 
         filter.doFilterInternal(request, response, filterChain);
 
@@ -57,6 +62,36 @@ class JwtAuthenticationFilterTest {
         assertThat(authentication).isNotNull();
         assertThat(authentication.getName()).isEqualTo("juan.perez");
         verify(filterChain).doFilter(request, response);
+    }
+
+    @Test
+    void debeCargarLasAuthorities_cuandoElTokenTieneRoles() throws Exception {
+        when(request.getHeader("Authorization")).thenReturn("Bearer token-de-servicio");
+        when(tokenProvider.isTokenValid("token-de-servicio")).thenReturn(true);
+        when(tokenProvider.getLoginFromToken("token-de-servicio")).thenReturn("turnos-service");
+        when(tokenProvider.getRolesFromToken("token-de-servicio")).thenReturn(List.of("ROLE_SERVICE"));
+
+        filter.doFilterInternal(request, response, filterChain);
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        assertThat(authentication).isNotNull();
+        assertThat(authentication.getAuthorities())
+                .extracting(GrantedAuthority::getAuthority)
+                .containsExactly("ROLE_SERVICE");
+    }
+
+    @Test
+    void debeAutenticarSinAuthorities_cuandoElTokenNoTraeRoles() throws Exception {
+        when(request.getHeader("Authorization")).thenReturn("Bearer token-sin-roles");
+        when(tokenProvider.isTokenValid("token-sin-roles")).thenReturn(true);
+        when(tokenProvider.getLoginFromToken("token-sin-roles")).thenReturn("juan.perez");
+        when(tokenProvider.getRolesFromToken("token-sin-roles")).thenReturn(null);
+
+        filter.doFilterInternal(request, response, filterChain);
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        assertThat(authentication).isNotNull();
+        assertThat(authentication.getAuthorities()).isEmpty();
     }
 
     @Test
