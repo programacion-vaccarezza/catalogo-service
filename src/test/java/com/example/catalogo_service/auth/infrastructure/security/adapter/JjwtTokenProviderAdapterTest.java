@@ -1,9 +1,13 @@
 package com.example.catalogo_service.auth.infrastructure.security.adapter;
 
 import com.example.catalogo_service.auth.domain.model.User;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.security.Keys;
 import org.junit.jupiter.api.Test;
 
+import javax.crypto.SecretKey;
 import java.time.Duration;
+import java.util.Base64;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -121,5 +125,21 @@ class JjwtTokenProviderAdapterTest {
         boolean valido = tokenProvider.isTokenValid(token);
 
         assertThat(valido).isTrue();
+    }
+
+    @Test
+    void debeRetornarListaVacia_cuandoUnTokenDeUsuarioTraeUnClaimRolesFalsificado() {
+        SecretKey userKey = Keys.hmacShaKeyFor(Base64.getDecoder().decode(SECRET_DE_PRUEBA));
+        String tokenFalsificado = Jwts.builder()
+                .subject("atacante")
+                .claim("roles", List.of("ROLE_SERVICE"))
+                .signWith(userKey)
+                .compact();
+
+        assertThat(tokenProvider.isTokenValid(tokenFalsificado)).isTrue();
+
+        List<String> roles = tokenProvider.getRolesFromToken(tokenFalsificado);
+
+        assertThat(roles).isEmpty();
     }
 }

@@ -16,6 +16,8 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -28,6 +30,8 @@ import org.springframework.web.server.ResponseStatusException;
 @RequestMapping("/api/auth")
 @RequiredArgsConstructor
 public class AuthController {
+
+    private static final Logger LOG = LoggerFactory.getLogger(AuthController.class);
 
     private final AuthService authService;
     private final UserDtoMapper userDtoMapper;
@@ -61,6 +65,7 @@ public class AuthController {
             String token = authService.loginUser(loginRequest.getLogin(), loginRequest.getPassword());
             return ResponseEntity.ok(LoginResponse.builder().token(token).build());
         } catch (InvalidCredentialsException e) {
+            LOG.warn("Intento de login fallido para el usuario {}", loginRequest.getLogin());
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, e.getMessage());
         }
     }
@@ -77,6 +82,7 @@ public class AuthController {
             String token = authService.authenticateService(serviceTokenRequest.getClientId(), serviceTokenRequest.getClientSecret());
             return ResponseEntity.ok(ServiceTokenResponse.builder().token(token).build());
         } catch (InvalidCredentialsException e) {
+            LOG.warn("Credenciales de servicio rechazadas para clientId {}", serviceTokenRequest.getClientId());
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, e.getMessage());
         }
     }
