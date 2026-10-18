@@ -8,6 +8,7 @@ import com.example.catalogo_service.catalog.infrastructure.persistence.repositor
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.Optional;
 
 @Component
@@ -33,5 +34,12 @@ public class JpaProfessionalRepositoryAdapter implements ProfessionalRepository 
     public Optional<Professional> findById(Long id) {
         return jpaProfessionalRepository.findById(id)
                 .map(professionalMapper::toDomainModel);
+    }
+
+    @Override
+    public List<Professional> findAll() {
+        return jpaProfessionalRepository.findAll().stream()
+                .map(professionalMapper::toDomainModel)
+                .toList();
     }
 }
