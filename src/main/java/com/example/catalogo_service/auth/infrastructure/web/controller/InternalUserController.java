@@ -8,8 +8,11 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,6 +24,8 @@ import org.springframework.web.server.ResponseStatusException;
 @RequiredArgsConstructor
 public class InternalUserController {
 
+    private static final Logger LOG = LoggerFactory.getLogger(InternalUserController.class);
+
     private final AuthService authService;
 
     @Operation(summary = "Obtener nombre y apellido de un usuario por su login (uso exclusivo de servicios internos)")
@@ -30,7 +35,8 @@ public class InternalUserController {
             @ApiResponse(responseCode = "404", description = "No existe un usuario con ese login")
     })
     @GetMapping("/{login}")
-    public ResponseEntity<InternalUserResponse> getUserByLogin(@PathVariable String login) {
+    public ResponseEntity<InternalUserResponse> getUserByLogin(@PathVariable String login, Authentication authentication) {
+        LOG.info("Servicio {} consulto el usuario {}", authentication.getName(), login);
         try {
             User user = authService.getUserByLogin(login);
             return ResponseEntity.ok(InternalUserResponse.builder()

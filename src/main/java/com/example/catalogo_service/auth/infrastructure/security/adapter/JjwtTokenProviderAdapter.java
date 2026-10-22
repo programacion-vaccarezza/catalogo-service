@@ -55,8 +55,17 @@ public class JjwtTokenProviderAdapter implements TokenProvider {
     @Override
     @SuppressWarnings("unchecked")
     public List<String> getRolesFromToken(String token) {
-        List<String> roles = (List<String>) parseClaims(token).get(ROLES_CLAIM, List.class);
-        return roles != null ? roles : Collections.emptyList();
+        try {
+            Claims claims = Jwts.parser()
+                    .verifyWith(serviceKey)
+                    .build()
+                    .parseSignedClaims(token)
+                    .getPayload();
+            List<String> roles = (List<String>) claims.get(ROLES_CLAIM, List.class);
+            return roles != null ? roles : Collections.emptyList();
+        } catch (JwtException | IllegalArgumentException serviceKeyFailure) {
+            return Collections.emptyList();
+        }
     }
 
     @Override
