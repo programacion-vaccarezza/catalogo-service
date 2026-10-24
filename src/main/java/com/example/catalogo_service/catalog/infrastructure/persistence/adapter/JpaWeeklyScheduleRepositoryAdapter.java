@@ -8,6 +8,8 @@ import com.example.catalogo_service.catalog.infrastructure.persistence.repositor
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 @RequiredArgsConstructor
 public class JpaWeeklyScheduleRepositoryAdapter implements WeeklyScheduleRepository {
@@ -20,5 +22,12 @@ public class JpaWeeklyScheduleRepositoryAdapter implements WeeklyScheduleReposit
         WeeklyScheduleEntity weeklyScheduleEntity = weeklyScheduleMapper.toEntity(weeklySchedule);
         WeeklyScheduleEntity savedEntity = jpaWeeklyScheduleRepository.save(weeklyScheduleEntity);
         return weeklyScheduleMapper.toDomainModel(savedEntity);
+    }
+
+    @Override
+    public List<WeeklySchedule> findByProfessionalId(Long professionalId) {
+        return jpaWeeklyScheduleRepository.findByProfessionalId(professionalId).stream()
+                .map(weeklyScheduleMapper::toDomainModel)
+                .toList();
     }
 }
