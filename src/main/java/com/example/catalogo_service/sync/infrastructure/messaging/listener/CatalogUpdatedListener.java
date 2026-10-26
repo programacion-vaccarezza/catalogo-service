@@ -14,9 +14,7 @@ public class CatalogUpdatedListener {
     private final HandleCatalogUpdatedUseCase handleCatalogUpdatedUseCase;
     private final CatalogUpdatedEventMapper catalogUpdatedEventMapper;
 
-    @KafkaListener(
-            topics = "${catedra.kafka.catalog-topic}",
-            containerFactory = "catalogUpdatedListenerContainerFactory")
+    @KafkaListener(topics = "${catedra.kafka.catalog-topic}")
     public void onMessage(CatalogUpdatedEventDto dto) {
         handleCatalogUpdatedUseCase.handle(catalogUpdatedEventMapper.toDomainModel(dto));
     }

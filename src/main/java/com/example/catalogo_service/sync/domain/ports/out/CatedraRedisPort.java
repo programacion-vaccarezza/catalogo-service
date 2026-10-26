@@ -13,4 +13,5 @@ public interface CatedraRedisPort {
     Optional<Category> fetchCategory(Long id);
     Optional<Professional> fetchProfessional(Long id);
     Optional<WeeklySchedule> fetchWeeklySchedule(Long id);
+    long fetchOldestAvailableVersion();
 }

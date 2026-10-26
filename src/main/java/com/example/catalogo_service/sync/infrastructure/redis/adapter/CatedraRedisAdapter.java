@@ -12,6 +12,7 @@ import com.example.catalogo_service.sync.infrastructure.redis.dto.CatalogChanges
 import com.example.catalogo_service.sync.infrastructure.redis.mapper.CatedraRedisMapper;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.ReactiveStringRedisTemplate;
 import org.springframework.stereotype.Component;
@@ -26,10 +27,11 @@ public class CatedraRedisAdapter implements CatedraRedisPort {
     private static final String CATEGORIES_HASH = "catedra:sync:professional-categories";
     private static final String PROFESSIONALS_HASH = "catedra:sync:professionals";
     private static final String WEEKLY_SCHEDULES_HASH = "catedra:sync:weekly-schedules";
+    private static final String OLDEST_AVAILABLE_VERSION_KEY = "catedra:sync:oldest-available-version";
 
     private final ReactiveStringRedisTemplate catedraRedisTemplate;
-    private final ObjectMapper objectMapper;
     private final CatedraRedisMapper catedraRedisMapper;
+    private final ObjectMapper objectMapper = new ObjectMapper().registerModule(new JavaTimeModule());
 
     @Override
     public CatalogChangeSet fetchChanges(long version) {
@@ -60,6 +62,12 @@ public class CatedraRedisAdapter implements CatedraRedisPort {
         return Optional.ofNullable(json)
                 .map(value -> readValue(value, WeeklyScheduleSnapshotDto.class))
                 .map(catedraRedisMapper::toDomainModel);
+    }
+
+    @Override
+    public long fetchOldestAvailableVersion() {
+        String value = catedraRedisTemplate.opsForValue().get(OLDEST_AVAILABLE_VERSION_KEY).block();
+        return Long.parseLong(value);
     }
 
     private <T> T readValue(String json, Class<T> type) {
