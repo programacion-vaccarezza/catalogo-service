@@ -8,9 +8,13 @@ import com.example.catalogo_service.sync.infrastructure.persistence.repository.J
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.util.Optional;
+
 @Component
 @RequiredArgsConstructor
 public class JpaCatalogSyncStateRepositoryAdapter implements CatalogSyncStateRepository {
+
+    private static final Long SINGLETON_ID = 1L;
 
     private final JpaCatalogSyncStateRepository jpaCatalogSyncStateRepository;
     private final CatalogSyncStateMapper catalogSyncStateMapper;
@@ -19,5 +23,11 @@ public class JpaCatalogSyncStateRepositoryAdapter implements CatalogSyncStateRep
     public void save(CatalogSyncState catalogSyncState) {
         CatalogSyncStateEntity entity = catalogSyncStateMapper.toEntity(catalogSyncState);
         jpaCatalogSyncStateRepository.save(entity);
+    }
+
+    @Override
+    public Optional<CatalogSyncState> find() {
+        return jpaCatalogSyncStateRepository.findById(SINGLETON_ID)
+                .map(catalogSyncStateMapper::toDomainModel);
     }
 }
