@@ -4,15 +4,21 @@ import com.example.catalogo_service.sync.domain.model.CatalogSnapshot;
 import com.example.catalogo_service.sync.domain.ports.out.CatedraRestPort;
 import com.example.catalogo_service.sync.infrastructure.client.dto.SnapshotResponse;
 import com.example.catalogo_service.sync.infrastructure.client.mapper.SnapshotMapper;
+import io.netty.channel.ChannelOption;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.client.reactive.ReactorClientHttpConnector;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
+import reactor.netty.http.client.HttpClient;
+
+import java.time.Duration;
 
 @Component
 public class CatedraRestAdapter implements CatedraRestPort {
 
     private static final String SNAPSHOT_PATH = "/api/synchronization/snapshot";
+    private static final Duration RESPONSE_TIMEOUT = Duration.ofSeconds(10);
 
     private final WebClient webClient;
     private final String jwt;
@@ -21,7 +27,13 @@ public class CatedraRestAdapter implements CatedraRestPort {
     public CatedraRestAdapter(@Value("${catedra.base-url}") String baseUrl,
                                @Value("${catedra.jwt}") String jwt,
                                SnapshotMapper snapshotMapper) {
-        this.webClient = WebClient.builder().baseUrl(baseUrl).build();
+        HttpClient httpClient = HttpClient.create()
+                .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, (int) RESPONSE_TIMEOUT.toMillis())
+                .responseTimeout(RESPONSE_TIMEOUT);
+        this.webClient = WebClient.builder()
+                .baseUrl(baseUrl)
+                .clientConnector(new ReactorClientHttpConnector(httpClient))
+                .build();
         this.jwt = jwt;
         this.snapshotMapper = snapshotMapper;
     }
