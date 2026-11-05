@@ -36,4 +36,11 @@ class ServiceCredentialsValidatorAdapterTest {
 
         assertThat(resultado).isFalse();
     }
+
+    @Test
+    void debeRetornarFalse_cuandoElClientSecretEsNull() {
+        boolean resultado = validator.isValid("turnos-service", null);
+
+        assertThat(resultado).isFalse();
+    }
 }
