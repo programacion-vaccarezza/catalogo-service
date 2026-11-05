@@ -8,6 +8,8 @@ import com.example.catalogo_service.catalog.infrastructure.persistence.repositor
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 @RequiredArgsConstructor
 public class JpaCategoryRepositoryAdapter implements CategoryRepository {
@@ -20,5 +22,12 @@ public class JpaCategoryRepositoryAdapter implements CategoryRepository {
         CategoryEntity categoryEntity = categoryMapper.toEntity(category);
         CategoryEntity savedEntity = jpaCategoryRepository.save(categoryEntity);
         return categoryMapper.toDomainModel(savedEntity);
+    }
+
+    @Override
+    public List<Category> findAll() {
+        return jpaCategoryRepository.findAll().stream()
+                .map(categoryMapper::toDomainModel)
+                .toList();
     }
 }

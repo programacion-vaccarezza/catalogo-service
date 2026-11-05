@@ -4,6 +4,9 @@ import com.example.catalogo_service.auth.domain.ports.out.ServiceCredentialsVali
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+
 @Component
 public class ServiceCredentialsValidatorAdapter implements ServiceCredentialsValidator {
 
@@ -18,6 +21,11 @@ public class ServiceCredentialsValidatorAdapter implements ServiceCredentialsVal
 
     @Override
     public boolean isValid(String clientId, String clientSecret) {
-        return this.clientId.equals(clientId) && this.clientSecret.equals(clientSecret);
+        if (!this.clientId.equals(clientId) || clientSecret == null) {
+            return false;
+        }
+        return MessageDigest.isEqual(
+                this.clientSecret.getBytes(StandardCharsets.UTF_8),
+                clientSecret.getBytes(StandardCharsets.UTF_8));
     }
 }
