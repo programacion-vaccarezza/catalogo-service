@@ -84,4 +84,24 @@ class CatedraRedisMapperTest {
         assertThat(weeklySchedule.getCreatedAt()).isEqualTo(now);
         assertThat(weeklySchedule.getUpdatedAt()).isEqualTo(now);
     }
+
+    @Test
+    void debeDevolverNull_cuandoElDtoDeCambiosEsNull() {
+        assertThat(mapper.toDomainModel((CatalogChangesDto) null)).isNull();
+    }
+
+    @Test
+    void debeDevolverNull_cuandoElDtoDeCategoriaEsNull() {
+        assertThat(mapper.toDomainModel((CategorySnapshotDto) null)).isNull();
+    }
+
+    @Test
+    void debeDevolverNull_cuandoElDtoDeProfesionalEsNull() {
+        assertThat(mapper.toDomainModel((ProfessionalSnapshotDto) null)).isNull();
+    }
+
+    @Test
+    void debeDevolverNull_cuandoElDtoDeHorarioSemanalEsNull() {
+        assertThat(mapper.toDomainModel((WeeklyScheduleSnapshotDto) null)).isNull();
+    }
 }
