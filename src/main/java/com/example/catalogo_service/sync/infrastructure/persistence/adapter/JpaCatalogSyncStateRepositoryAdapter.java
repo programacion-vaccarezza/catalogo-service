@@ -10,21 +10,25 @@ import org.springframework.stereotype.Component;
 
 import java.util.Optional;
 
+// Adapter que implementa CatalogSyncStateRepository
 @Component
 @RequiredArgsConstructor
 public class JpaCatalogSyncStateRepositoryAdapter implements CatalogSyncStateRepository {
 
+    // Siempre hay una sola fila: la version local vigente
     private static final Long SINGLETON_ID = 1L;
 
     private final JpaCatalogSyncStateRepository jpaCatalogSyncStateRepository;
     private final CatalogSyncStateMapper catalogSyncStateMapper;
 
+    // Guarda la version local
     @Override
     public void save(CatalogSyncState catalogSyncState) {
         CatalogSyncStateEntity entity = catalogSyncStateMapper.toEntity(catalogSyncState);
         jpaCatalogSyncStateRepository.save(entity);
     }
 
+    // Busca la fila única y la mapea a dominio si existe
     @Override
     public Optional<CatalogSyncState> find() {
         return jpaCatalogSyncStateRepository.findById(SINGLETON_ID)

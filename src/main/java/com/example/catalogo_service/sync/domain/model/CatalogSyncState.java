@@ -8,6 +8,7 @@ import lombok.Setter;
 
 import java.time.Instant;
 
+// La version del catálogo que está aplicada localmente ahora mismo
 @Getter
 @Setter
 @Builder

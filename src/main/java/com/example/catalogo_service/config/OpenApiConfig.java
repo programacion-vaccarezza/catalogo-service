@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.security.SecurityScheme;
 import org.springframework.context.annotation.Configuration;
 
+// Declara el esquema de autenticación JWT en el OpenAPI, para que Swagger UI muestre el botón Authorize
 @Configuration
 @OpenAPIDefinition(
         info = @Info(title = "catalogo-service", version = "v1",

@@ -4,6 +4,7 @@ import lombok.*;
 
 import java.util.List;
 
+// Los IDs que cambiaron, agrupados por tipo
 @Getter
 @Setter
 @NoArgsConstructor

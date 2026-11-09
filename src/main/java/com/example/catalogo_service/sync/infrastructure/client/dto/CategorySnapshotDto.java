@@ -4,6 +4,7 @@ import lombok.*;
 
 import java.time.Instant;
 
+// Categoría tal como viene en el JSON del snapshot REST de la cátedra
 @Getter
 @Setter
 @NoArgsConstructor

@@ -4,9 +4,11 @@ import com.example.catalogo_service.catalog.domain.model.WeeklySchedule;
 import com.example.catalogo_service.catalog.infrastructure.persistence.entity.WeeklyScheduleEntity;
 import org.springframework.stereotype.Component;
 
+// Mapea entre el modelo de dominio WeeklySchedule y la entidad JPA WeeklyScheduleEntity
 @Component
 public class WeeklyScheduleMapper {
 
+    // Convierte el dominio a entidad para persistir
     public WeeklyScheduleEntity toEntity(WeeklySchedule weeklySchedule) {
         if (weeklySchedule == null) {
             return null;
@@ -24,6 +26,7 @@ public class WeeklyScheduleMapper {
                 .build();
     }
 
+    // Convierte la entidad persistida a dominio
     public WeeklySchedule toDomainModel(WeeklyScheduleEntity entity) {
         if (entity == null) {
             return null;

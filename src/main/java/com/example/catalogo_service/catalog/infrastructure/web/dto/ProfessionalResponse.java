@@ -2,6 +2,7 @@ package com.example.catalogo_service.catalog.infrastructure.web.dto;
 
 import lombok.*;
 
+// Respuesta pública de profesional
 @Getter
 @Setter
 @Builder

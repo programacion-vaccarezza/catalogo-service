@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
+// Endpoint protegido con ROLE_SERVICE, solo para que turnos-service consulte datos de un usuario
 @RestController
 @RequestMapping("/api/internal/users")
 @RequiredArgsConstructor
@@ -28,6 +29,7 @@ public class InternalUserController {
 
     private final AuthService authService;
 
+    // Devuelve nombre y apellido de un usuario por su login
     @Operation(summary = "Obtener nombre y apellido de un usuario por su login (uso exclusivo de servicios internos)")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Usuario encontrado"),

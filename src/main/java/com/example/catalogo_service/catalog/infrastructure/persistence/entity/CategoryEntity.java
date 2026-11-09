@@ -7,6 +7,7 @@ import lombok.*;
 
 import java.time.Instant;
 
+// Entidad JPA de la tabla categories, separada del modelo de dominio Category
 @Getter
 @Setter
 @Entity

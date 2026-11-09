@@ -8,6 +8,7 @@ import lombok.Setter;
 
 import java.time.Instant;
 
+// Evento que notifica Kafka cuando hay una nueva version de catálogo disponible
 @Getter
 @Setter
 @Builder

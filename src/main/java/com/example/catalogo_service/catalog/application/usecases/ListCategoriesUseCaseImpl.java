@@ -8,12 +8,14 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+// Lista todas las categorías del catálogo local
 @Component
 @RequiredArgsConstructor
 public class ListCategoriesUseCaseImpl implements ListCategoriesUseCase {
 
     private final CategoryRepository categoryRepository;
 
+    // Devuelve todas las categorías guardadas
     @Override
     public List<Category> listCategories() {
         return categoryRepository.findAll();

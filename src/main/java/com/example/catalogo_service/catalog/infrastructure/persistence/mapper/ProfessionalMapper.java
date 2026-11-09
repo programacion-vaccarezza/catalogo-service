@@ -4,9 +4,11 @@ import com.example.catalogo_service.catalog.domain.model.Professional;
 import com.example.catalogo_service.catalog.infrastructure.persistence.entity.ProfessionalEntity;
 import org.springframework.stereotype.Component;
 
+// Mapea entre el modelo de dominio Professional y la entidad JPA ProfessionalEntity
 @Component
 public class ProfessionalMapper {
 
+    // Convierte el dominio a entidad para persistir
     public ProfessionalEntity toEntity(Professional professional) {
         if (professional == null) {
             return null;
@@ -22,6 +24,7 @@ public class ProfessionalMapper {
                 .build();
     }
 
+    // Convierte la entidad persistida a dominio
     public Professional toDomainModel(ProfessionalEntity entity) {
         if (entity == null) {
             return null;

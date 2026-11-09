@@ -17,6 +17,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.List;
 
+// Configura qué endpoints requieren JWT, cuáles requieren el rol de servicio, y la política de CORS
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
@@ -27,6 +28,7 @@ public class SecurityConfig {
     @Value("${cors.allowed-origins}")
     private String allowedOrigins;
 
+    // Define las reglas de autorización por ruta y agrega el filtro que valida el JWT
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
@@ -42,6 +44,7 @@ public class SecurityConfig {
         return http.build();
     }
 
+    // Arma la política de CORS a partir de los orígenes permitidos por configuración
     private CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(List.of(allowedOrigins.split(",\\s*")));

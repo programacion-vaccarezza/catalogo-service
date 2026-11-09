@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+// Adapter que implementa WeeklyScheduleRepository usando JPA
 @Component
 @RequiredArgsConstructor
 public class JpaWeeklyScheduleRepositoryAdapter implements WeeklyScheduleRepository {
@@ -17,6 +18,7 @@ public class JpaWeeklyScheduleRepositoryAdapter implements WeeklyScheduleReposit
     private final JpaWeeklyScheduleRepository jpaWeeklyScheduleRepository;
     private final WeeklyScheduleMapper weeklyScheduleMapper;
 
+    // Guarda el horario y devuelve el modelo de dominio ya persistido
     @Override
     public WeeklySchedule save(WeeklySchedule weeklySchedule) {
         WeeklyScheduleEntity weeklyScheduleEntity = weeklyScheduleMapper.toEntity(weeklySchedule);
@@ -24,6 +26,7 @@ public class JpaWeeklyScheduleRepositoryAdapter implements WeeklyScheduleReposit
         return weeklyScheduleMapper.toDomainModel(savedEntity);
     }
 
+    // Devuelve los horarios de un profesional mapeados a dominio
     @Override
     public List<WeeklySchedule> findByProfessionalId(Long professionalId) {
         return jpaWeeklyScheduleRepository.findByProfessionalId(professionalId).stream()
