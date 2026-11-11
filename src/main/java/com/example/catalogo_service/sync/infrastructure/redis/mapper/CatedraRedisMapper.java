@@ -16,6 +16,9 @@ import java.time.DayOfWeek;
 public class CatedraRedisMapper {
 
     public CatalogChangeSet toDomainModel(CatalogChangesDto dto) {
+        if (dto == null) {
+            return null;
+        }
         return CatalogChangeSet.builder()
                 .version(dto.getVersion())
                 .categoryIds(dto.getChanges().getProfessionalCategories())
@@ -25,6 +28,9 @@ public class CatedraRedisMapper {
     }
 
     public Category toDomainModel(CategorySnapshotDto dto) {
+        if (dto == null) {
+            return null;
+        }
         return Category.builder()
                 .id(dto.getId())
                 .name(dto.getName())
@@ -36,6 +42,9 @@ public class CatedraRedisMapper {
     }
 
     public Professional toDomainModel(ProfessionalSnapshotDto dto) {
+        if (dto == null) {
+            return null;
+        }
         return Professional.builder()
                 .id(dto.getId())
                 .categoryId(dto.getCategoryId())
@@ -48,6 +57,9 @@ public class CatedraRedisMapper {
     }
 
     public WeeklySchedule toDomainModel(WeeklyScheduleSnapshotDto dto) {
+        if (dto == null) {
+            return null;
+        }
         return WeeklySchedule.builder()
                 .id(dto.getId())
                 .professionalId(dto.getProfessionalId())
