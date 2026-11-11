@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
 
+// Trae el snapshot completo por REST y reemplaza categorías, profesionales y horarios locales
 @Component
 @RequiredArgsConstructor
 public class FullSyncExecutor {
@@ -27,6 +28,7 @@ public class FullSyncExecutor {
     private final WeeklyScheduleRepository weeklyScheduleRepository;
     private final CatalogSyncStateRepository catalogSyncStateRepository;
 
+    // Pide el snapshot, lo guarda y reci´n al final registra la versión del snapshot en una sola transacción
     @Transactional
     public void execute() {
         CatalogSnapshot snapshot = catedraRestPort.fetchSnapshot();

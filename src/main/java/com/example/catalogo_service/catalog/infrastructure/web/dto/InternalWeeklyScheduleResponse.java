@@ -5,6 +5,7 @@ import lombok.*;
 import java.time.DayOfWeek;
 import java.time.LocalTime;
 
+// Respuesta del endpoint interno de horarios, para turnos-service
 @Getter
 @Setter
 @Builder

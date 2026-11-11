@@ -20,6 +20,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
+// Endpoints públicos para buscar y consultar profesionales
 @RestController
 @RequestMapping("/api/professionals")
 @RequiredArgsConstructor
@@ -27,6 +28,7 @@ public class ProfessionalController {
 
     private final ProfessionalService professionalService;
 
+    // Busca profesionales con filtros opcionales por query params
     @Operation(summary = "Buscar profesionales en la copia local del catálogo")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Profesionales encontrados (puede ser una lista vacía)")
@@ -49,6 +51,7 @@ public class ProfessionalController {
         return ResponseEntity.ok(response);
     }
 
+    // Devuelve el detalle público de un profesional
     @Operation(summary = "Obtener el detalle de un profesional por su ID")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Profesional encontrado"),
@@ -64,6 +67,7 @@ public class ProfessionalController {
         }
     }
 
+    // Convierte el dominio a la respuesta pública
     private ProfessionalResponse toResponse(Professional professional) {
         return ProfessionalResponse.builder()
                 .id(professional.getId())

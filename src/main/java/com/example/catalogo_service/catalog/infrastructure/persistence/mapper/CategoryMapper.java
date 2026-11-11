@@ -4,9 +4,11 @@ import com.example.catalogo_service.catalog.domain.model.Category;
 import com.example.catalogo_service.catalog.infrastructure.persistence.entity.CategoryEntity;
 import org.springframework.stereotype.Component;
 
+// Mapea entre el modelo de dominio Category y la entidad JPA CategoryEntity
 @Component
 public class CategoryMapper {
 
+    // Convierte el dominio a entidad para persistir
     public CategoryEntity toEntity(Category category) {
         if (category == null) {
             return null;
@@ -21,6 +23,7 @@ public class CategoryMapper {
                 .build();
     }
 
+    // Convierte la entidad persistida a dominio
     public Category toDomainModel(CategoryEntity entity) {
         if (entity == null) {
             return null;

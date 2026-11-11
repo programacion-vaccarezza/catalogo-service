@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+// Busca profesionales en la copia local, combinando los filtros recibidos
 @Component
 @RequiredArgsConstructor
 public class SearchProfessionalsUseCaseImpl implements SearchProfessionalsUseCase {
@@ -18,6 +19,7 @@ public class SearchProfessionalsUseCaseImpl implements SearchProfessionalsUseCas
     private final ProfessionalRepository professionalRepository;
     private final WeeklyScheduleRepository weeklyScheduleRepository;
 
+    // Aplica los 4 filtros en cadena sobre todos los profesionales
     @Override
     public List<Professional> searchProfessionals(ProfessionalSearchCriteria criteria) {
         return professionalRepository.findAll().stream()
@@ -28,10 +30,12 @@ public class SearchProfessionalsUseCaseImpl implements SearchProfessionalsUseCas
                 .toList();
     }
 
+    // Coincide si no se filtró por categoría o si es la misma
     private boolean matchesCategory(Professional professional, ProfessionalSearchCriteria criteria) {
         return criteria.getCategoryId() == null || criteria.getCategoryId().equals(professional.getCategoryId());
     }
 
+    // Coincide si no se filtró por nombre o si aparece en el nombre o el apellido
     private boolean matchesName(Professional professional, ProfessionalSearchCriteria criteria) {
         if (criteria.getName() == null) {
             return true;
@@ -41,10 +45,12 @@ public class SearchProfessionalsUseCaseImpl implements SearchProfessionalsUseCas
                 || professional.getLastName().toLowerCase().contains(query);
     }
 
+    // Coincide si no se filtró por habilitado o si coincide el estado
     private boolean matchesEnabled(Professional professional, ProfessionalSearchCriteria criteria) {
         return criteria.getEnabled() == null || criteria.getEnabled().equals(professional.isEnabled());
     }
 
+    // "Disponibilidad" acá significa que tiene algún horario semanal habilitado
     private boolean matchesAvailability(Professional professional, ProfessionalSearchCriteria criteria) {
         if (criteria.getAvailability() == null) {
             return true;

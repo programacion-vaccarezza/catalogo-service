@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
+// Endpoints públicos de registro, login de usuario final, y autenticación de la cuenta técnica
 @RestController
 @RequestMapping("/api/auth")
 @RequiredArgsConstructor
@@ -36,6 +37,7 @@ public class AuthController {
     private final AuthService authService;
     private final UserDtoMapper userDtoMapper;
 
+    // Registra un usuario final nuevo
     @Operation(summary = "Registrar un nuevo usuario final")
     @ApiResponses({
             @ApiResponse(responseCode = "201", description = "Usuario registrado correctamente"),
@@ -53,6 +55,7 @@ public class AuthController {
         }
     }
 
+    // Autentica un usuario final con login y contraseña
     @Operation(summary = "Autenticar un usuario y obtener un JWT")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Login exitoso, devuelve el JWT"),
@@ -70,6 +73,7 @@ public class AuthController {
         }
     }
 
+    // Autentica la cuenta técnica de un servicio (client credentials) y le da un JWT de servicio
     @Operation(summary = "Autenticar una cuenta técnica de servicio (ej. turnos-service) y obtener un JWT técnico")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Autenticación exitosa, devuelve el JWT técnico"),

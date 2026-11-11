@@ -4,6 +4,7 @@ import lombok.*;
 
 import java.time.Instant;
 
+// Profesional tal como viene en el JSON del snapshot REST de la cátedra
 @Getter
 @Setter
 @NoArgsConstructor

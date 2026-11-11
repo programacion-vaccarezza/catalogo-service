@@ -7,6 +7,7 @@ import lombok.*;
 
 import java.time.Instant;
 
+// Entidad JPA de la tabla catalog_sync_state
 @Getter
 @Setter
 @Entity

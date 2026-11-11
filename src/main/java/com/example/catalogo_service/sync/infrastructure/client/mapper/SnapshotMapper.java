@@ -13,9 +13,11 @@ import org.springframework.stereotype.Component;
 import java.time.DayOfWeek;
 import java.util.List;
 
+// Mapea el snapshot REST de la cátedra al modelo de dominio
 @Component
 public class SnapshotMapper {
 
+    // Convierte la respuesta completa del snapshot a dominio
     public CatalogSnapshot toDomainModel(SnapshotResponse response) {
         if (response == null) {
             return null;
@@ -64,6 +66,7 @@ public class SnapshotMapper {
         return dtos.stream().map(this::toWeeklySchedule).toList();
     }
 
+    // Convierte el dayOfWeek de texto a enum
     private WeeklySchedule toWeeklySchedule(WeeklyScheduleSnapshotDto dto) {
         return WeeklySchedule.builder()
                 .id(dto.getId())
