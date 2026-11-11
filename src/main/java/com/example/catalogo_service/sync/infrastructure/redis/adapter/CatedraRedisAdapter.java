@@ -19,6 +19,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.Optional;
 
+// Adapter que implementa CatedraRedisPort leyendo el Redis real de la cátedra
 @Component
 @RequiredArgsConstructor
 public class CatedraRedisAdapter implements CatedraRedisPort {
@@ -33,6 +34,7 @@ public class CatedraRedisAdapter implements CatedraRedisPort {
     private final CatedraRedisMapper catedraRedisMapper;
     private final ObjectMapper objectMapper = new ObjectMapper().registerModule(new JavaTimeModule());
 
+    // Lee la clave de cambios de esa version y la mapea a dominio
     @Override
     public CatalogChangeSet fetchChanges(long version) {
         String json = catedraRedisTemplate.opsForValue().get(CHANGES_KEY_PREFIX + version).block();
@@ -40,6 +42,7 @@ public class CatedraRedisAdapter implements CatedraRedisPort {
         return catedraRedisMapper.toDomainModel(dto);
     }
 
+    // Lee el estado actual de una categoría del hash, si todavía existe
     @Override
     public Optional<Category> fetchCategory(Long id) {
         String json = catedraRedisTemplate.<String, String>opsForHash().get(CATEGORIES_HASH, String.valueOf(id)).block();
@@ -48,6 +51,7 @@ public class CatedraRedisAdapter implements CatedraRedisPort {
                 .map(catedraRedisMapper::toDomainModel);
     }
 
+    // Lee el estado actual de un profesional del hash, si todavía existe
     @Override
     public Optional<Professional> fetchProfessional(Long id) {
         String json = catedraRedisTemplate.<String, String>opsForHash().get(PROFESSIONALS_HASH, String.valueOf(id)).block();
@@ -56,6 +60,7 @@ public class CatedraRedisAdapter implements CatedraRedisPort {
                 .map(catedraRedisMapper::toDomainModel);
     }
 
+    // Lee el estado actual de un horario del hash, si todavía existe
     @Override
     public Optional<WeeklySchedule> fetchWeeklySchedule(Long id) {
         String json = catedraRedisTemplate.<String, String>opsForHash().get(WEEKLY_SCHEDULES_HASH, String.valueOf(id)).block();
@@ -64,12 +69,14 @@ public class CatedraRedisAdapter implements CatedraRedisPort {
                 .map(catedraRedisMapper::toDomainModel);
     }
 
+    // Lee la version más antigua que Redis todavía puede reconstruir de forma incremental
     @Override
     public long fetchOldestAvailableVersion() {
         String value = catedraRedisTemplate.opsForValue().get(OLDEST_AVAILABLE_VERSION_KEY).block();
         return Long.parseLong(value);
     }
 
+    // Deserializa el JSON crudo de Redis al DTO pedido
     private <T> T readValue(String json, Class<T> type) {
         try {
             return objectMapper.readValue(json, type);

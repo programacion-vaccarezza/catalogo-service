@@ -6,8 +6,10 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+// Repositorio de la entidad WeeklyScheduleEntity
 @Repository
 public interface JpaWeeklyScheduleRepository extends JpaRepository<WeeklyScheduleEntity, Long> {
 
+    // Busca los horarios de un profesional
     List<WeeklyScheduleEntity> findByProfessionalId(Long professionalId);
 }

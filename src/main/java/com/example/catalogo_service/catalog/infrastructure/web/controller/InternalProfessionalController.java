@@ -23,6 +23,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
+// Endpoints protegidos con ROLE_SERVICE, solo para que turnos-service consulte datos de profesionales
 @RestController
 @RequestMapping("/api/internal/professionals")
 @RequiredArgsConstructor
@@ -32,6 +33,7 @@ public class InternalProfessionalController {
 
     private final ProfessionalService professionalService;
 
+    // Devuelve el detalle de un profesional
     @Operation(summary = "Obtener un profesional por su ID (uso exclusivo de servicios internos)")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Profesional encontrado"),
@@ -55,6 +57,7 @@ public class InternalProfessionalController {
         }
     }
 
+    // Devuelve los horarios semanales de un profesional
     @Operation(summary = "Obtener los horarios semanales de un profesional (uso exclusivo de servicios internos)")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Horarios encontrados"),

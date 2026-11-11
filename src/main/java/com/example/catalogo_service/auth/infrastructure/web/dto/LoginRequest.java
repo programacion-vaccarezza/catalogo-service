@@ -3,6 +3,7 @@ package com.example.catalogo_service.auth.infrastructure.web.dto;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
+// Body del login: login y contraseña
 @Getter
 @Setter
 @Builder

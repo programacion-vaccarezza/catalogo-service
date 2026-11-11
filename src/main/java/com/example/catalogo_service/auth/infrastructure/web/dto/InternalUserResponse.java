@@ -2,6 +2,7 @@ package com.example.catalogo_service.auth.infrastructure.web.dto;
 
 import lombok.*;
 
+// Respuesta del endpoint interno de usuario: solo los datos que necesita turnos-service
 @Getter
 @Setter
 @Builder

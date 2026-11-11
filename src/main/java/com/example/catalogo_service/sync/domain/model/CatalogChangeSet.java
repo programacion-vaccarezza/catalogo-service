@@ -8,6 +8,7 @@ import lombok.Setter;
 
 import java.util.List;
 
+// Los IDs que cambiaron en una version del catálogo
 @Getter
 @Setter
 @Builder

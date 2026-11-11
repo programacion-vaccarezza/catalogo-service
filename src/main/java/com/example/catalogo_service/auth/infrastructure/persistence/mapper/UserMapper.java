@@ -4,9 +4,11 @@ import com.example.catalogo_service.auth.domain.model.User;
 import com.example.catalogo_service.auth.infrastructure.persistence.entity.UserEntity;
 import org.springframework.stereotype.Component;
 
+// Mapea entre el modelo de dominio User y la entidad JPA UserEntity
 @Component
 public class UserMapper {
 
+    // Convierte el dominio a entidad para persistir
     public UserEntity toEntity(User user) {
         if (user == null) {
             return null;
@@ -24,6 +26,7 @@ public class UserMapper {
                 .build();
     }
 
+    // Convierte la entidad persistida a dominio
     public User toDomainModel(UserEntity entity) {
         if (entity == null) {
             return null;

@@ -12,6 +12,7 @@ import lombok.Setter;
 import java.time.Instant;
 import java.util.List;
 
+// Catálogo completo (categorías, profesionales y horarios) tal como lo devuelve el snapshot REST de la cátedra
 @Getter
 @Setter
 @Builder

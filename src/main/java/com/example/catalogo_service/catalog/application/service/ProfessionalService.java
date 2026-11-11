@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+// Fachada de los casos de uso de profesionales
 @Service
 @RequiredArgsConstructor
 public class ProfessionalService {
@@ -19,14 +20,17 @@ public class ProfessionalService {
     private final GetWeeklySchedulesByProfessionalIdUseCase getWeeklySchedulesByProfessionalIdUseCase;
     private final SearchProfessionalsUseCase searchProfessionalsUseCase;
 
+    // Busca un profesional por id
     public Professional getProfessionalById(Long id) {
         return getProfessionalByIdUseCase.getProfessionalById(id);
     }
 
+    // Lista los horarios semanales de un profesional
     public List<WeeklySchedule> getWeeklySchedulesByProfessionalId(Long professionalId) {
         return getWeeklySchedulesByProfessionalIdUseCase.getWeeklySchedulesByProfessionalId(professionalId);
     }
 
+    // Busca profesionales según los filtros recibidos
     public List<Professional> searchProfessionals(ProfessionalSearchCriteria criteria) {
         return searchProfessionalsUseCase.searchProfessionals(criteria);
     }

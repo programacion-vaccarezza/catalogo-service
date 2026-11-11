@@ -11,6 +11,7 @@ import org.springframework.data.redis.core.ReactiveStringRedisTemplate;
 @Configuration
 public class CatedraRedisConfig {
 
+    // Arma la conexión con host, puerto y credenciales de la cátedra
     @Bean
     public ReactiveRedisConnectionFactory catedraRedisConnectionFactory(
             @Value("${catedra.redis.host}") String host,

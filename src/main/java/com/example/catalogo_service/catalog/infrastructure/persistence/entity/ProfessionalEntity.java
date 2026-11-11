@@ -7,6 +7,7 @@ import lombok.*;
 
 import java.time.Instant;
 
+// Entidad JPA de la tabla professionals, separada del modelo de dominio Professional
 @Getter
 @Setter
 @Entity
