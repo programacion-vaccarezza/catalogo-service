@@ -5,6 +5,7 @@ import lombok.*;
 import java.time.Instant;
 import java.util.List;
 
+// Body completo del snapshot REST de la cátedra
 @Getter
 @Setter
 @NoArgsConstructor

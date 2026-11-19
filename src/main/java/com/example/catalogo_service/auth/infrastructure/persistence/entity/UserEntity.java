@@ -8,6 +8,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.*;
 
+// Entidad JPA de la tabla users
 @Getter
 @Setter
 @Entity

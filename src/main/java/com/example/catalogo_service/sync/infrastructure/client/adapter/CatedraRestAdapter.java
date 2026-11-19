@@ -14,6 +14,7 @@ import reactor.netty.http.client.HttpClient;
 
 import java.time.Duration;
 
+// Adapter que implementa CatedraRestPort llamando al REST real de la cátedra
 @Component
 public class CatedraRestAdapter implements CatedraRestPort {
 
@@ -38,6 +39,7 @@ public class CatedraRestAdapter implements CatedraRestPort {
         this.snapshotMapper = snapshotMapper;
     }
 
+    // Pide el snapshot con el JWT de la cuenta de integración y lo mapea a dominio
     @Override
     public CatalogSnapshot fetchSnapshot() {
         SnapshotResponse response = webClient.get()

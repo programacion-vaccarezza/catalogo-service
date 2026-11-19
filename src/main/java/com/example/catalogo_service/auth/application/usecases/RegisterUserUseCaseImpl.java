@@ -8,6 +8,7 @@ import com.example.catalogo_service.auth.domain.ports.out.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+// Registra un usuario final nuevo
 @Component
 @RequiredArgsConstructor
 public class RegisterUserUseCaseImpl implements RegisterUserUseCase {
@@ -15,6 +16,7 @@ public class RegisterUserUseCaseImpl implements RegisterUserUseCase {
     private final UserRepository userRepository;
     private final PasswordHasher passwordHasher;
 
+    // Valida que el login y el email no estén usados, hashea la contraseña y guarda el usuario
     @Override
     public User registerUser(User user) {
         if (userRepository.existsByLogin(user.getLogin())) {

@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+// Filtros de búsqueda de profesionales
 @Getter
 @Setter
 @Builder

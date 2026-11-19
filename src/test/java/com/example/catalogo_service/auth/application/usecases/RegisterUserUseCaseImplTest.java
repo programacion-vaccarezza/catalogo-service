@@ -36,7 +36,7 @@ class RegisterUserUseCaseImplTest {
 
         assertThatThrownBy(() -> registerUserUseCase.registerUser(user))
                 .isInstanceOf(UserAlreadyExistsException.class)
-                .hasMessage("User already exists: juan.perez");
+                .hasMessage("El usuario ya existe: juan.perez");
 
         verify(userRepository, never()).save(any());
     }
@@ -49,7 +49,7 @@ class RegisterUserUseCaseImplTest {
 
         assertThatThrownBy(() -> registerUserUseCase.registerUser(user))
                 .isInstanceOf(UserAlreadyExistsException.class)
-                .hasMessage("User already exists: juan@example.com");
+                .hasMessage("El usuario ya existe: juan@example.com");
 
         verify(userRepository, never()).save(any());
     }

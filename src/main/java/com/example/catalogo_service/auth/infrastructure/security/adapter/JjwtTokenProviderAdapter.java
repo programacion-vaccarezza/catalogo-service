@@ -16,6 +16,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
+// Adapter que implementa TokenProvider con la librería jjwt, usando dos claves distintas (usuario y servicio)
 @Component
 public class JjwtTokenProviderAdapter implements TokenProvider {
 
@@ -27,6 +28,7 @@ public class JjwtTokenProviderAdapter implements TokenProvider {
     private final SecretKey serviceKey;
     private final Duration serviceExpiration;
 
+    // Decodifica las dos claves (base64) desde la configuración
     public JjwtTokenProviderAdapter(@Value("${jwt.secret}") String userSecret,
                                      @Value("${jwt.expiration}") Duration userExpiration,
                                      @Value("${service.jwt-secret}") String serviceSecret,
@@ -37,21 +39,26 @@ public class JjwtTokenProviderAdapter implements TokenProvider {
         this.serviceExpiration = serviceExpiration;
     }
 
+    // Genera el JWT de un usuario final, sin claim de roles, firmado con la clave de usuario
     @Override
     public String generateToken(User user) {
         return buildToken(user.getLogin(), userExpiration, userKey, null);
     }
 
+    // Genera el JWT de una cuenta técnica, con el rol ROLE_SERVICE, firmado con la clave de servicio
     @Override
     public String generateServiceToken(String subject) {
         return buildToken(subject, serviceExpiration, serviceKey, List.of(ROLE_SERVICE));
     }
 
+    // Extrae el subject (login) con la clave de usuario
     @Override
     public String getLoginFromToken(String token) {
         return parseClaims(token).getSubject();
     }
 
+    // Solo confía en los roles si el token fue firmado con la clave de servicio: evita que un JWT
+    // de usuario final (firmado con otra clave) pueda inventarse un rol
     @Override
     @SuppressWarnings("unchecked")
     public List<String> getRolesFromToken(String token) {
@@ -68,6 +75,7 @@ public class JjwtTokenProviderAdapter implements TokenProvider {
         }
     }
 
+    // Válido si la firma y la vigencia son válidos
     @Override
     public boolean isTokenValid(String token) {
         try {
@@ -78,6 +86,7 @@ public class JjwtTokenProviderAdapter implements TokenProvider {
         }
     }
 
+    // Arma y firma el token; roles es null para los de usuario final
     private String buildToken(String subject, Duration expiration, SecretKey key, List<String> roles) {
         Date now = new Date();
         Date expiry = new Date(now.getTime() + expiration.toMillis());
@@ -94,6 +103,8 @@ public class JjwtTokenProviderAdapter implements TokenProvider {
         return builder.signWith(key).compact();
     }
 
+    // Prueba la clave de usuario primero y recién si falla prueba la de servicio: ni esto ni
+    // getLoginFromToken otorgan permisos por sí solos, por eso alcanza con validar contra cualquiera
     private Claims parseClaims(String token) {
         try {
             return Jwts.parser()

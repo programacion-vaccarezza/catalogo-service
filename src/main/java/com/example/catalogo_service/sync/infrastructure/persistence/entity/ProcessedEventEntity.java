@@ -7,6 +7,7 @@ import lombok.*;
 
 import java.time.Instant;
 
+// Entidad JPA de la tabla processed_events, el registro de idempotencia de Kafka
 @Getter
 @Setter
 @Entity

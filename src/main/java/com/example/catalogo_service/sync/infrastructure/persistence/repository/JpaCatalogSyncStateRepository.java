@@ -4,6 +4,7 @@ import com.example.catalogo_service.sync.infrastructure.persistence.entity.Catal
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+// Repositorio de la entidad CatalogSyncStateEntity
 @Repository
 public interface JpaCatalogSyncStateRepository extends JpaRepository<CatalogSyncStateEntity, Long> {
 }

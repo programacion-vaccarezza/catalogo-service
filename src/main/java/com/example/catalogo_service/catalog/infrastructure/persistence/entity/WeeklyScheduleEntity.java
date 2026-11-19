@@ -11,6 +11,7 @@ import java.time.DayOfWeek;
 import java.time.Instant;
 import java.time.LocalTime;
 
+// Entidad JPA de la tabla weekly_schedules, separada del modelo de dominio WeeklySchedule
 @Getter
 @Setter
 @Entity

@@ -2,6 +2,7 @@ package com.example.catalogo_service.catalog.infrastructure.web.dto;
 
 import lombok.*;
 
+// Respuesta del endpoint interno de profesional, para turnos-service
 @Getter
 @Setter
 @Builder

@@ -9,6 +9,7 @@ import com.example.catalogo_service.auth.domain.ports.out.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+// Valida login y contraseña de un usuario final y le genera su JWT
 @Component
 @RequiredArgsConstructor
 public class LoginUserUseCaseImpl implements LoginUserUseCase {
@@ -17,6 +18,7 @@ public class LoginUserUseCaseImpl implements LoginUserUseCase {
     private final PasswordHasher passwordHasher;
     private final TokenProvider tokenProvider;
 
+    // Busca el usuario, compara la contraseña con el hash guardado y devuelve el JWT
     @Override
     public String loginUser(String loginName, String password) {
         User user = userRepository.findByLogin(loginName)

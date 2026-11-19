@@ -4,6 +4,7 @@ import com.example.catalogo_service.catalog.infrastructure.persistence.entity.Pr
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+// Repositorio de la entidad ProfessionalEntity
 @Repository
 public interface JpaProfessionalRepository extends JpaRepository<ProfessionalEntity, Long> {
 }

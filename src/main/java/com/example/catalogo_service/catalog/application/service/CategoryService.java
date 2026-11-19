@@ -7,12 +7,14 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+// Fachada de los casos de uso de categorías
 @Service
 @RequiredArgsConstructor
 public class CategoryService {
 
     private final ListCategoriesUseCase listCategoriesUseCase;
 
+    // Lista las categorías del catálogo local
     public List<Category> listCategories() {
         return listCategoriesUseCase.listCategories();
     }

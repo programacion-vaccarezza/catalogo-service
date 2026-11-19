@@ -12,9 +12,11 @@ import org.springframework.stereotype.Component;
 
 import java.time.DayOfWeek;
 
+// Mapea los DTOs que llegan de Redis al modelo de dominio
 @Component
 public class CatedraRedisMapper {
 
+    // Convierte el detalle de cambios (version + IDs) a dominio
     public CatalogChangeSet toDomainModel(CatalogChangesDto dto) {
         if (dto == null) {
             return null;
@@ -27,6 +29,7 @@ public class CatedraRedisMapper {
                 .build();
     }
 
+    // Convierte una categoría leída de Redis a dominio
     public Category toDomainModel(CategorySnapshotDto dto) {
         if (dto == null) {
             return null;
@@ -41,6 +44,7 @@ public class CatedraRedisMapper {
                 .build();
     }
 
+    // Convierte un profesional leído de Redis a dominio
     public Professional toDomainModel(ProfessionalSnapshotDto dto) {
         if (dto == null) {
             return null;
@@ -56,6 +60,7 @@ public class CatedraRedisMapper {
                 .build();
     }
 
+    // Convierte un horario leído de Redis a dominio
     public WeeklySchedule toDomainModel(WeeklyScheduleSnapshotDto dto) {
         if (dto == null) {
             return null;

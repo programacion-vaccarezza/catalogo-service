@@ -4,6 +4,7 @@ import lombok.*;
 
 import java.time.Instant;
 
+// Evento CatalogUpdated tal como lo publica Kafka
 @Getter
 @Setter
 @NoArgsConstructor

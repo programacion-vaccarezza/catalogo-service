@@ -8,17 +8,20 @@ import org.springframework.stereotype.Component;
 
 import java.time.Instant;
 
+// Adapter que implementa ProcessedEventRepository
 @Component
 @RequiredArgsConstructor
 public class JpaProcessedEventRepositoryAdapter implements ProcessedEventRepository {
 
     private final JpaProcessedEventRepository jpaProcessedEventRepository;
 
+    // Indica si ese eventId ya está guardado
     @Override
     public boolean existsByEventId(String eventId) {
         return jpaProcessedEventRepository.existsById(eventId);
     }
 
+    // Guarda el eventId con la fecha de procesamiento actual
     @Override
     public void markAsProcessed(String eventId) {
         jpaProcessedEventRepository.save(ProcessedEventEntity.builder()

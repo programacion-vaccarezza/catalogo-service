@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
+// Dispara la sincronización completa al arrancar la app si la base está vacía
 @Component
 @RequiredArgsConstructor
 public class FullSyncStartupRunner implements CommandLineRunner {

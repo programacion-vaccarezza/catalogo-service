@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+// Endpoint público para listar las categorías del catálogo local
 @RestController
 @RequestMapping("/api/categories")
 @RequiredArgsConstructor
@@ -21,6 +22,7 @@ public class CategoryController {
 
     private final CategoryService categoryService;
 
+    // Lista todas las categorías
     @Operation(summary = "Listar las categorías de la copia local del catálogo")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Categorías encontradas (puede ser una lista vacía)")
@@ -33,6 +35,7 @@ public class CategoryController {
         return ResponseEntity.ok(response);
     }
 
+    // Convierte el dominio a la respuesta pública
     private CategoryResponse toResponse(Category category) {
         return CategoryResponse.builder()
                 .id(category.getId())

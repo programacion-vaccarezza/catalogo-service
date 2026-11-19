@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
+// Sincroniza el catálogo completo solo si la base local está vacía
 @Component
 @RequiredArgsConstructor
 public class FullSyncUseCaseImpl implements FullSyncUseCase {
@@ -16,6 +17,7 @@ public class FullSyncUseCaseImpl implements FullSyncUseCase {
     private final ProfessionalRepository professionalRepository;
     private final FullSyncExecutor fullSyncExecutor;
 
+    // Si ya hay datos no hace nada; si está vacía, ejecuta la sincronización completa
     @Override
     public void syncIfEmpty() {
         if (professionalRepository.existsAny()) {

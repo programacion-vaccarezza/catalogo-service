@@ -10,6 +10,7 @@ import java.time.DayOfWeek;
 import java.time.Instant;
 import java.time.LocalTime;
 
+// Horario semanal recurrente de un profesional, copia local de la que publica la cátedra
 @Getter
 @Setter
 @Builder

@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
 
+// Escucha el topic de Kafka donde la cátedra notifica cambios de catálogo
 @Component
 @RequiredArgsConstructor
 public class CatalogUpdatedListener {

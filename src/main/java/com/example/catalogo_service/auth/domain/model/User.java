@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+// Usuario final de la aplicación
 @Getter
 @Setter
 @Builder

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+// Lista los horarios semanales de un profesional
 @Component
 @RequiredArgsConstructor
 public class GetWeeklySchedulesByProfessionalIdUseCaseImpl implements GetWeeklySchedulesByProfessionalIdUseCase {
@@ -17,6 +18,7 @@ public class GetWeeklySchedulesByProfessionalIdUseCaseImpl implements GetWeeklyS
     private final ProfessionalRepository professionalRepository;
     private final WeeklyScheduleRepository weeklyScheduleRepository;
 
+    // Valida que el profesional exista y devuelve sus horarios
     @Override
     public List<WeeklySchedule> getWeeklySchedulesByProfessionalId(Long professionalId) {
         if (professionalRepository.findById(professionalId).isEmpty()) {

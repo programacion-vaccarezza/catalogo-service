@@ -5,9 +5,11 @@ import com.example.catalogo_service.auth.infrastructure.web.dto.RegisterRequest;
 import com.example.catalogo_service.auth.infrastructure.web.dto.RegisterResponse;
 import org.springframework.stereotype.Component;
 
+// Mapea entre los DTOs de registro y el modelo de dominio User
 @Component
 public class UserDtoMapper {
 
+    // Convierte el body de registro a dominio
     public User toDomain(RegisterRequest request) {
         if (request == null) {
             return null;
@@ -23,6 +25,7 @@ public class UserDtoMapper {
                 .build();
     }
 
+    // Convierte el usuario de dominio a la respuesta pública
     public RegisterResponse toResponse(User domain) {
         if (domain == null) {
             return null;

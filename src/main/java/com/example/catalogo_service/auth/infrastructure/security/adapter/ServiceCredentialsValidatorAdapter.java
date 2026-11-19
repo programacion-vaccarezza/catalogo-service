@@ -7,18 +7,21 @@ import org.springframework.stereotype.Component;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 
+// Adapter que valida las credenciales de la cuenta técnica contra los valores configurados
 @Component
 public class ServiceCredentialsValidatorAdapter implements ServiceCredentialsValidator {
 
     private final String clientId;
     private final String clientSecret;
 
+    // Toma clientId/clientSecret esperados desde la configuración
     public ServiceCredentialsValidatorAdapter(@Value("${service.client-id}") String clientId,
                                                @Value("${service.client-secret}") String clientSecret) {
         this.clientId = clientId;
         this.clientSecret = clientSecret;
     }
 
+    // Valida que clientId y clientSecret coincidan con los configurados
     @Override
     public boolean isValid(String clientId, String clientSecret) {
         if (!this.clientId.equals(clientId) || clientSecret == null) {

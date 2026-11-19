@@ -8,6 +8,7 @@ import lombok.Setter;
 
 import java.time.Instant;
 
+// Categoría del catálogo, copia local de la que publica la cátedra
 @Getter
 @Setter
 @Builder

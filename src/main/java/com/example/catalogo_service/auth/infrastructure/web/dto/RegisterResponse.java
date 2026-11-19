@@ -2,6 +2,7 @@ package com.example.catalogo_service.auth.infrastructure.web.dto;
 
 import lombok.*;
 
+// Respuesta del registro: el usuario creado
 @Getter
 @Setter
 @Builder

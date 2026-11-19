@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
 
+// Aplica una única versión de cambios: trae de Redis solo las entidades que cambiaron
 @Component
 @RequiredArgsConstructor
 public class CatalogVersionApplier {
@@ -23,10 +24,13 @@ public class CatalogVersionApplier {
     private final WeeklyScheduleRepository weeklyScheduleRepository;
     private final CatalogSyncStateRepository catalogSyncStateRepository;
 
+    // Busca los IDs que cambiaron en esta versión, guarda el estado actual de cada uno, y
+    // recién al final avanza la version local en una sola transacción
     @Transactional
     public void applyVersion(long version) {
         CatalogChangeSet changeSet = catedraRedisPort.fetchChanges(version);
 
+        // Si un ID ya no existe en Redis simplemente se ignora
         changeSet.getCategoryIds().forEach(id ->
                 catedraRedisPort.fetchCategory(id).ifPresent(categoryRepository::save));
         changeSet.getProfessionalIds().forEach(id ->
